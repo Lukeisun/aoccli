@@ -7,9 +7,6 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::process::Command;
 use std::{env, process};
-// want usage to be like aoc [day] [year] and aoc submit [day] year
-// maybe day can be inferred from cwd, maybe year somehow too
-// ideally some sort of config file?
 // Problem Input
 fn write_input_to_fs(client: &reqwest::blocking::Client, base_url: &str) {
     let resp = client.get(format!("{}/input", base_url)).send().unwrap();
@@ -73,7 +70,6 @@ fn run(base_url: String, session_cookie: String) {
     println!("Goodbye and good luck!");
 }
 fn main() {
-    // TODO: do some testing on how this works when I build it.
     // Think about doing some sort of .config type thing
     dotenv().ok();
     let session = env::var("SESSION").expect("No session env variable set");
