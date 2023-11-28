@@ -20,3 +20,9 @@ Running this will download the test input, scrape the examples, and open the pro
 Running this will submit based on stdin. Usage of this was made in mind of this following workflow.
 
 `cat input.in | {program name} | aoc submit DAY YEAR PART_NUM`
+
+## Stuff I want to do in the future
+
+- Better CLI Parsing
+- Make the program a little more fun (display some ASCII art on a correct submission? :D)
+- Maybe make it a little more cleaner as I learn more about Rust.
