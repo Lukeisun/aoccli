@@ -7,7 +7,8 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::process::Command;
 // want usage to be like aoc [day] [year] and aoc submit [day] year
-// maybe day can be inferred from cwd
+// maybe day can be inferred from cwd, maybe year somehow too
+// ideally some sort of config file?
 // Problem Input
 fn write_input_to_fs(client: &reqwest::blocking::Client, base_url: String) {
     let resp = client.get(format!("{}/input", base_url)).send().unwrap();
@@ -16,11 +17,10 @@ fn write_input_to_fs(client: &reqwest::blocking::Client, base_url: String) {
     file.write_all(text.as_bytes()).unwrap();
 }
 // Test Input
-// This will give all code samples
-// First seems to usually be the example.
-// Sometimes multiple examples given so
-// I'll just write all code examples as a file
-// and figure out which ones are valid examples realtime
+// First code block seems to usually be the example.
+// Sometimes multiple examples given as well as visual examples.
+// I'll just write all code blocks to files.
+// and figure out which ones are valid as I'm working on it.
 fn write_test_input_to_fs(client: &reqwest::blocking::Client, base_url: String) {
     let resp = client.get(base_url).send().unwrap();
     let text = resp.text().unwrap();
@@ -32,6 +32,8 @@ fn write_test_input_to_fs(client: &reqwest::blocking::Client, base_url: String) 
     }
 }
 fn main() {
+    // TODO: do some testing on how this works when I build it.
+    // Think about doing some sort of .config type thing
     dotenv().ok();
     let session = env::var("SESSION").expect("No session env variable set");
     let session_cookie = "session=".to_string() + &session;
