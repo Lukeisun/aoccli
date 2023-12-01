@@ -50,6 +50,7 @@ fn submit(base_url: String, session_cookie: String, part: String) {
     let main: Vec<Node> = document.find(Name("main")).collect();
     let submission_text = main[0].text();
     if submission_text.contains("That's the right answer!") {
+        tree();
         println!("Nice you got it right!");
     } else {
         println!("Wrong :( Try again in a minute");
@@ -93,4 +94,34 @@ fn main() {
         5 => submit(base_url.clone(), session_cookie.clone(), args[4].clone()),
         _ => process::exit(1),
     };
+}
+fn tree() {
+    let art = r"
+                     /\
+                    <  >
+                     \/
+                     /\
+                    /  \
+                   /++++\
+                  /  ()  \
+                  /      \
+                 /~`~`~`~`\
+                /  ()  ()  \
+                /          \
+               /*&*&*&*&*&*&\
+              /  ()  ()  ()  \
+              /              \
+             /++++++++++++++++\
+            /  ()  ()  ()  ()  \
+            /                  \
+           /~`~`~`~`~`~`~`~`~`~`\
+          /  ()  ()  ()  ()  ()  \
+          /*&*&*&*&*&*&*&*&*&*&*&\
+         /                        \
+        /,.,.,.,.,.,.,.,.,.,.,.,.,.\
+                   |   |
+                  |`````|
+                  \_____/
+";
+    println!("{}", art);
 }
