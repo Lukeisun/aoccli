@@ -67,7 +67,7 @@ fn submit(base_url: String, session_cookie: String, part: String) {
         tree();
         println!("Nice you got it right!");
     } else {
-        println!("Wrong :( Try again in a minute");
+        println!("{submission_text}");
     }
 }
 fn run(base_url: String, session_cookie: String) {
