@@ -1,12 +1,26 @@
+use chrono::{self, Datelike};
+use clap::Parser;
 use dotenv::dotenv;
 use reqwest::{self, header};
 use select::document::Document;
 use select::node::Node;
 use select::predicate::Name;
+use std::env;
 use std::fs::File;
 use std::io::prelude::*;
-use std::process::Command;
-use std::{env, process};
+use std::process::{exit, Command};
+#[derive(Parser)]
+#[command(author, version, about)]
+struct Cli {
+    #[arg(long)]
+    day: Option<u32>,
+    #[arg(long)]
+    year: Option<i32>,
+    #[arg(long, short)]
+    submit: Option<bool>,
+    #[arg(long, short)]
+    part: Option<u8>,
+}
 // Problem Input
 fn write_input_to_fs(client: &reqwest::blocking::Client, base_url: &str) {
     let resp = client.get(format!("{}/input", base_url)).send().unwrap();
@@ -71,29 +85,27 @@ fn run(base_url: String, session_cookie: String) {
     println!("Goodbye and good luck!");
 }
 fn main() {
+    let date = chrono::offset::Local::now();
+    let cli = Cli::parse();
+    let day = cli.day.unwrap_or(date.day());
+    let year = cli.year.unwrap_or(date.year());
     // Think about doing some sort of .config type thing
     dotenv().ok();
     let session = env::var("SESSION").expect("No session env variable set");
     let session_cookie = "session=".to_string() + &session;
-    // TODO: Think about maybe some better ways to do this?
-    // For now this is okay :)
-    let args: Vec<String> = env::args().collect();
-    let (day, year) = match args.len() {
-        3 => (&args[1], &args[2]),
-        5 if &args[1] == "submit" => (&args[2], &args[3]),
-        _ => {
-            println!("Invalid Arguments, usage is\n\taoc [submit] DAY YEAR [part]");
-            process::exit(1);
-        }
-    };
     let base_url = format!("https://adventofcode.com/{}/day/{}", year, day);
     println!("\x1B[32mAdvent of Code Year {} - Day {}\x1B[0m", year, day);
     println!("{}", base_url);
-    match args.len() {
-        3 => run(base_url.clone(), session_cookie.clone()),
-        5 => submit(base_url.clone(), session_cookie.clone(), args[4].clone()),
-        _ => process::exit(1),
-    };
+    if let Some(_) = cli.submit {
+        let part = cli.part.expect("No part provided");
+        if part != 1 && part != 2 {
+            println!("Part must be 1 or 2");
+            exit(1);
+        }
+        submit(base_url.clone(), session_cookie.clone(), part.to_string());
+    } else {
+        run(base_url.clone(), session_cookie.clone());
+    }
 }
 fn tree() {
     let art = r"

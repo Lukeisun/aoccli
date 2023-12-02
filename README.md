@@ -8,6 +8,9 @@ To be honest, not sure how useful this will be to others.
 
 ## To use
 
+> [!NOTE]
+> If no DAY YEAR provided, current date and year will be assumed
+
 This program relies on an environment variable `SESSION` whose value is your session cookie on the AoC website.
 You can supply this via a .env file located in your project directory, or through exporting it in your shell.
 
@@ -23,6 +26,7 @@ Running this will submit based on stdin. Usage of this was made in mind of this 
 
 ## Stuff I want to do in the future
 
-- Better CLI Parsing
+- ~~Better CLI Parsing~~
 - Make the program a little more fun (display some ASCII art on a correct submission? :D)
 - Maybe make it a little more cleaner as I learn more about Rust.
+-
